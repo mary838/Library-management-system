@@ -57,8 +57,8 @@
           <tr class="bg-white border-b border-gray-200">
             <th scope="col" class="p-4"></th>
             <th scope="col" class="px-6 py-3 text-blue-500">Book Name</th>
-            <th scope="col" class="px-6 py-3 text-blue-500">ID Book</th>
-            <th scope="col" class="px-6 py-3 text-blue-500">Type</th>
+            <th scope="col" class="px-6 py-3 text-blue-500">ID Card</th>
+            <th scope="col" class="px-6 py-3 text-blue-500">Class</th>
             <th scope="col" class="px-6 py-3 text-blue-500">TimeLine</th>
           </tr>
         </thead>
