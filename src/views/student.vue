@@ -3,7 +3,7 @@
 <template>
   <div class="relative shadow-md sm:rounded-lg">
     <div
-      class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 p-4 mb-6 bg-white dark:bg-gray-800 shadow-md rounded-e-3xl"
+      class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 p-4 mb-6 bg-white shadow-md rounded-e-3xl"
     >
       <form class="w-full sm:w-96">
         <label
@@ -48,6 +48,5 @@
         + Add Book
       </button>
     </div>
-   
   </div>
 </template>

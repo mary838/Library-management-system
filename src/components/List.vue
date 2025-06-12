@@ -3,12 +3,8 @@
 <template>
   <div class="flex min-h-screen p-6 bg-gray-100">
     <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-      <table
-        class="w-full text-sm text-left rtl:text-right text-gray-900 dark:text-white"
-      >
-        <thead
-          class="text-xs text-black uppercase bg-white dark:bg-gray-800 dark:text-white border-b"
-        >
+      <table class="w-full text-sm text-left rtl:text-right text-white">
+        <thead class="text-xs uppercase bg-white text-white border-b">
           <tr>
             <th scope="col" class="px-6 text-blue-500 py-3">Product name</th>
             <th scope="col" class="px-6 text-blue-500 py-3">Color</th>
@@ -41,7 +37,7 @@
               </svg>
             </button>
           </div>
-          <tr class="bg-white border-b border-gray-200 dark:border-gray-700">
+          <tr class="bg-white border-b border-gray-700">
             <th
               scope="row"
               class="px-6 py-4 font-medium whitespace-nowrap dark:text-white"
@@ -62,7 +58,7 @@
           <tr class="bg-white border-b border-gray-200 dark:border-gray-700">
             <th
               scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
             >
               Apple MacBook Pro 17"
             </th>
