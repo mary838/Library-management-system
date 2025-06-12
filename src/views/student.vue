@@ -45,7 +45,7 @@
       </form>
 
       <button
-        class="inline-flex items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg shadow hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-cyan-300 transition"
+        class="inline-flex cursor-pointer items-center justify-center px-6 py-2 text-sm font-medium text-white bg-gradient-to-br from-cyan-500 to-blue-500 rounded-lg shadow hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-4 focus:ring-cyan-300 transition"
       >
         + Add Student
       </button>
@@ -56,7 +56,7 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr class="bg-white border-b border-gray-200">
             <th scope="col" class="p-4"></th>
-            <th scope="col" class="px-6 py-3 text-blue-500">Book Name</th>
+            <th scope="col" class="px-6 py-3 text-blue-500">Student Name</th>
             <th scope="col" class="px-6 py-3 text-blue-500">ID Card</th>
             <th scope="col" class="px-6 py-3 text-blue-500">Class</th>
             <th scope="col" class="px-6 py-3 text-blue-500">TimeLine</th>
