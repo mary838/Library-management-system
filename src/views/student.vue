@@ -57,10 +57,10 @@
             class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
           >
             <tr>
-              <th scope="col" class="px-6 py-3">Book Name</th>
-              <th scope="col" class="px-6 py-3">ID Book</th>
-              <th scope="col" class="px-6 py-3">Type</th>
-              <th scope="col" class="px-6 py-3">Timeline</th>
+              <th scope="col" class="px-6 py-3 text-blue-600">Book Name</th>
+              <th scope="col" class="px-6 py-3 text-blue-600">ID Book</th>
+              <th scope="col" class="px-6 py-3 text-blue-600">Type</th>
+              <th scope="col" class="px-6 py-3 text-blue-600">Timeline</th>
             </tr>
           </thead>
           <tbody>
