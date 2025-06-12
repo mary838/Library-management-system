@@ -12,7 +12,7 @@ import Profile from "../components/profile.vue";
   >
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-300 dark:hover:bg-gray-300"
+      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-300 dark:hover:bg-gray-300"
     >
       <h5
         class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"
@@ -39,7 +39,7 @@ import Profile from "../components/profile.vue";
 
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
     >
       <h5
         class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"
@@ -65,7 +65,7 @@ import Profile from "../components/profile.vue";
 
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
     >
       <h5
         class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"

@@ -9,16 +9,14 @@ const AdminName = "THOUN SOVANNAREACH";
   <header class="w-full flex justify-between mx-auto">
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 rounded-b-3xl transition duration-200"
+      class="block w-full p-6 bg-white border border-gray-200 shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded-b-3xl transition duration-200"
     >
       <div class="flex items-center space-x-4">
         <div class="relative w-10 h-10 overflow-hidden rounded-full">
           <img :src="Image" alt="Avatar" class="object-cover w-full h-full" />
         </div>
         <div>
-          <h3 class="text-lg font-semibold text-gray-800 dark:text-white">
-            Librarian
-          </h3>
+          <h3 class="text-lg font-semibold text-gray-800">Librarian</h3>
           <p class="text-sm text-gray-600 dark:text-gray-300">
             {{ AdminName }}
           </p>
