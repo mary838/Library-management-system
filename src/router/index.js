@@ -5,6 +5,7 @@ import Book from "@/views/book.vue";
 import Borrow from "@/views/Borrow.vue";
 import Student from "@/views/student.vue";
 import Login from "@/Auth/login-book.vue";
+import Hero from "../Auth/login.vue";
 
 const routes = [
   {
@@ -31,6 +32,14 @@ const routes = [
     path: "/student",
     component: Student,
     meta: { layout: "main" },
+  },
+  {
+    path: "/login-book",
+    component: Login,
+  },
+  {
+    path: "/login",
+    component: Hero,
   },
 ];
 
