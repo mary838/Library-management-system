@@ -1,10 +1,11 @@
 <script setup>
 import List from "../components/List.vue";
 import Profile from "../components/profile.vue";
+import Chart from "../components/StudentChart.vue";
 </script>
 
 <template>
-  <header>
+  <header class="sticky top-0 z-10">
     <Profile />
   </header>
   <div
@@ -90,6 +91,6 @@ import Profile from "../components/profile.vue";
       <p class="font-bold text-gray-700">Number Book</p>
     </a>
   </div>
-
+  <Chart />
   <List />
 </template>

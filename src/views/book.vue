@@ -1,7 +1,7 @@
 <script setup></script>
 
 <template>
-  <div class="relative shadow-md sm:rounded-lg">
+  <div class="relative shadow-md">
     <div
       class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 p-4 mb-6 bg-white shadow-md rounded-e-3xl"
     >
