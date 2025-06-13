@@ -14,7 +14,7 @@ const routes = [
     meta: { layout: "auth" },
   },
   {
-    path: "/",
+    path: "/dashboard",
     component: Dashboard,
     meta: { layout: "main" },
   },
@@ -38,7 +38,7 @@ const routes = [
     component: Login,
   },
   {
-    path: "/login",
+    path: "/",
     component: Hero,
     meta: { layout: "auth" },
   },
