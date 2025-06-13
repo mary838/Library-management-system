@@ -9,7 +9,7 @@ import Chart from "../components/StudentChart.vue";
     <Profile />
   </header>
   <div
-    class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-4"
+    class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
   >
     <a
       href="#"
