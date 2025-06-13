@@ -1,10 +1,11 @@
 <script setup>
 import List from "../components/List.vue";
 import Profile from "../components/profile.vue";
+import Chart from "../components/StudentChart.vue";
 </script>
 
 <template>
-  <header>
+  <header class="sticky top-0 z-10">
     <Profile />
   </header>
   <div
@@ -15,11 +16,11 @@ import Profile from "../components/profile.vue";
       class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-300 dark:hover:bg-gray-300"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
       >
         300
         <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full dark:bg-gray-600"
+          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
         >
           <svg
             class="absolute w-12 h-12 p-1 text-red-600 -left-1"
@@ -34,19 +35,19 @@ import Profile from "../components/profile.vue";
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700 dark:text-gray-400">Member Student</p>
+      <p class="font-bold text-gray-700">Member Student</p>
     </a>
 
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
+      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
       >
         155
         <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full dark:bg-gray-600"
+          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
         >
           <svg
             class="absolute w-6 h-7 ms-2 mt-1.5 text-red-600"
@@ -60,19 +61,19 @@ import Profile from "../components/profile.vue";
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700 dark:text-gray-400">Borrowed Books</p>
+      <p class="font-bold text-gray-700">Borrowed Books</p>
     </a>
 
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700"
+      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900 dark:text-white"
+        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
       >
         1020
         <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full dark:bg-gray-600"
+          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
         >
           <svg
             class="absolute w-6 h-8 ms-2 mt-1 text-red-600"
@@ -87,9 +88,9 @@ import Profile from "../components/profile.vue";
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700 dark:text-gray-400">Number Book</p>
+      <p class="font-bold text-gray-700">Number Book</p>
     </a>
   </div>
-
+  <Chart />
   <List />
 </template>
