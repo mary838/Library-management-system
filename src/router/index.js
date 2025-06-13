@@ -40,6 +40,7 @@ const routes = [
   {
     path: "/login",
     component: Hero,
+    meta: { layout: "auth" },
   },
 ];
 

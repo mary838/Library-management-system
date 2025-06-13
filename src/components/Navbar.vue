@@ -1,48 +1,85 @@
 <script setup>
+import { ref } from "vue";
 import { useRoute } from "vue-router";
-import { LayoutDashboard, BookOpen, Users, TrendingUp } from "lucide-vue-next";
-import Image from "../assets/Lidrary.png";
+import {
+  LayoutDashboard,
+  BookOpen,
+  Users,
+  TrendingUp,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-vue-next";
+import Image from "../assets/Lidrary.png"; // Ensure this path is correct
 
 const route = useRoute();
+const isCollapsed = ref(false);
+
+const toggleSidebar = () => {
+  isCollapsed.value = !isCollapsed.value;
+};
 
 const isActive = (path) => {
   return route.path === path
-    ? "bg-blue-100 text-blue-700  "
-    : "text-gray-500 hover:text-blue-600 ";
+    ? "bg-blue-100 text-blue-700"
+    : "text-gray-600 hover:text-blue-600";
 };
 
 const menuItems = [
   { name: "Dashboard", path: "/", icon: LayoutDashboard },
-  { name: "BooKs", path: "/book", icon: BookOpen },
+  { name: "Books", path: "/book", icon: BookOpen },
   { name: "Students", path: "/student", icon: Users },
   { name: "Borrow", path: "/borrow", icon: TrendingUp },
 ];
 </script>
 
 <template>
-  <div class="flex h-screen bg-gray-50">
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg p-6 flex flex-col justify-between">
-      <div>
-        <img :src="Image" alt="Avatar" class="object-cover w-42 h-18 p-3" />
-        <nav class="space-y-3">
-          <router-link
-            v-for="item in menuItems"
-            :key="item.name"
-            :to="item.path"
-            class="flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200"
-            :class="isActive(item.path)"
-          >
-            <component :is="item.icon" class="w-5 h-5" />
-            <span class="text-sm font-medium">{{ item.name }}</span>
-          </router-link>
-        </nav>
+  <aside
+    :class="[
+      'bg-white shadow-lg p-4 h-screen flex flex-col justify-between transition-all duration-300',
+      isCollapsed ? 'w-20' : 'w-64',
+    ]"
+  >
+    <!-- Top Section -->
+    <div>
+      <!-- Logo and Toggle -->
+      <div class="flex justify-between ms-6 items-center mb-8">
+        <img
+          v-if="!isCollapsed"
+          :src="Image"
+          alt="Logo"
+          class="object-cover w-36 h-14"
+        />
+        <button
+          @click="toggleSidebar"
+          class="p-1 text-gray-600 hover:text-blue-600"
+        >
+          <component
+            :is="isCollapsed ? ChevronRight : ChevronLeft"
+            class="w-5 h-5"
+          />
+        </button>
       </div>
-    </aside>
 
-    <!-- Main Content -->
-    <!-- <main class="flex-1 overflow-y-auto p-6">
-      <router-view />
-    </main> -->
-  </div>
+      <!-- Nav Links -->
+      <nav class="space-y-2">
+        <router-link
+          v-for="item in menuItems"
+          :key="item.name"
+          :to="item.path"
+          class="flex items-center gap-3 px-3 py-2 rounded-lg transition-colors"
+          :class="isActive(item.path)"
+        >
+          <component :is="item.icon" class="w-5 h-5" />
+          <span v-if="!isCollapsed" class="text-sm font-medium">
+            {{ item.name }}
+          </span>
+        </router-link>
+      </nav>
+    </div>
+
+    <!-- Bottom Padding or Future Content -->
+    <div v-if="!isCollapsed" class="text-xs text-gray-400 text-center pt-6">
+      &copy; 2025 Your App
+    </div>
+  </aside>
 </template>
