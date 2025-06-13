@@ -5,35 +5,29 @@
     <div class="flex p-7 mb-4  h-full">
       <div class="mt-6 ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
         <h1 class="text-2xl font-bold mb-4 p-4 text-center text-blue-600">Add  New Book</h1>
-      <form class="max-w-sm mx-auto">
-        <div class="mb-5">
-          <label for="text" class="block mb-2 text-sm font-medium text-gray-900 ">BOOK Name</label>
-          <input type="text" id="text" class="  text-gray-900 text-sm rounded-lg focus:ring-black-300 focus:border-black-300 block w-full p-2.5 " placeholder="David Goliath" required />
-        </div>
-        <div class="mb-5">
-          <label for="ID" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-500">ID</label>
-          <input type="ID" id="ID" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter your  ID" required />
-        </div>
-        <div class="mb-5">
-          <label for="Type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-500">Type</label>
-          <input type="text" id="Type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Your Class" required />
-        </div>
-       <div class="mb-5">
-          <label for="Timeline" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-500">Timeline</label>
-          <input type="Timeline" id="Timeline" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter Your email" required />
-       </div>
-       <div class="flex items-start mb-5">
-       </div>
-          <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add Student</button>
-      </form>
+        <form class="max-w-sm mx-auto space-y-4">
+           <div class="mb-5">
+             <label for="Name" class="block text-sm font-bold text-gray-700 mb-2">Book Name </label>
+             <input type="text" id="text" class="shadow appearance-none border rounded w-full py-2 px-3" required placeholder="David Goliath" />
+           </div>
+           <div class="mb-5">
+             <label for="user-id" class="block text-sm font-bold text-gray-700 mb-2">user-id</label>
+             <input type="Number" id="Number" class="shadow appearance-none border rounded w-full py-2 px-3" placeholder="Enter Your ID" required />
+           </div>
+           <div class="mb-5">
+             <label for="message" class="block text-sm font-bold text-gray-700 mb-2">Type</label>
+             <input type="text" id="text" class="shadow appearance-none border rounded w-full py-2 px-3" required placeholder="Enter Your Type" />
+           </div>
+           <div class="mb-5">
+             <label for="message" class="block text-sm font-bold text-gray-700 mb-2"> Timeline</label >
+             <input type="text" id="text" class="shadow appearance-none border rounded w-full py-2 px-3" required placeholder="Enter Your Timeline"/>
+           </div>
+           <button type="submit" class="text-white bg-blue-700 mt-4 hover:bg-blue-800  rounded-lg text-sm  w-full px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"> Add Book</button>
+        </form>
       </div>
       <div class="mt-6 ms-6 w-1/2 px-32 py-16 ">
-        <img class="w-full h-full" src="../assets//new-book.png" alt="">
+        <img class="w-full h-full" src="../assets/image.png" alt="">
       </div>
-
-    </div>
-    <div>
-    <img src="" alt="">
     </div>
   </div>
 </template>
