@@ -1,22 +1,19 @@
 <script setup>
-import Navbar from "@/components/Navbar.vue";
-// import Header from "./components/Header.vue";
-// import profile from "./components/profile.vue";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+import MainLayout from "./layout/MainLayout.vue";
+import AuthLayout from "./layout/AuthLayout.vue";
+
+const route = useRoute();
+
+const layout = computed(() => {
+  const name = route.meta.layout;
+  if (name === "auth") return AuthLayout;
+  return MainLayout;
+});
 </script>
 
 <template>
-  <div class="h-screen flex">
-    <aside class="flex-shrink-0 h-full">
-      <Navbar />
-    </aside>
-    <div class="flex flex-col flex-1 overflow-hidden">
-      <header>
-        <profile />
-      </header>
-
-      <main class="flex-1 overflow-y-auto">
-        <router-view />
-      </main>
-    </div>
-  </div>
+  <component :is="layout" />
 </template>
