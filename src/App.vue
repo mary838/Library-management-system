@@ -11,7 +11,6 @@
     </div>
   </div>
 
-  <!-- Show only login view -->
   <div v-else class="h-screen">
     <router-view />
   </div>
