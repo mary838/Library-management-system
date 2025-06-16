@@ -1,46 +1,46 @@
-<script setup>
-import Four from '../assets/Lidrary.png';
-</script>
+<script setup></script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="bg-white shadow-md rounded-lg p-8 flex w-full max-w-4xl">
-      <!-- Left side (Image) -->
-      <div class="w-1/2 hidden md:flex items-center justify-center">
-        <img
-          :src="Four"
-          alt="Library School"
-          class="w-full h-auto object-cover rounded-lg"
-        />
+  <div class="w-full  p-4 mb-6 bg-white h-full">
+    <div class="flex p-7 mb-4  h-full">
+      <div class="mt-6 ms-6 w-1/2 px-32 py-16 ">
+        <img class="w-full h-full" src="../assets/image.png" alt="" />
       </div>
-
-      <!-- Right side (Form) -->
-      <div class="w-full md:w-1/2 px-4">
-        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">
-          Welcome To Library School
-        </h2>
-        <form class="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <div class="relative">
+      <div class="mt-6 ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
+        <h1 class="text-2xl  font-bold mb-4 p-4 text-center text-blue-600">
+          Login to Your Account
+        </h1>
+        <form class="max-w-sm mx-auto space-y-4">
+          <div class="mb-5">
+            <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
+              >Full Name
+            </label>
             <input
-              type="password"
-              placeholder="Password"
-              class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="text@"
+              id="text"
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+              required
+              placeholder="Email"
             />
           </div>
-          <div class="flex items-center">
-            <input type="checkbox" id="remember" class="mr-2" />
-            <label for="remember" class="text-sm text-gray-600">
-              Remember me
-            </label>
+          <div class="mb-5">
+            <label
+              for="user-id"
+              class="block text-sm font-bold text-gray-700 mb-2"
+              >Password</label
+            >
+            <input
+              type="password"
+              id=""
+              class="shadow appearance-none border rounded w-full py-2 px-3"
+              placeholder="**********"
+              required
+            />
           </div>
+
           <button
             type="submit"
-            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            class="text-white bg-blue-700 mt-4 hover:bg-blue-800  rounded-lg text-sm  w-full px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
           >
             Login
           </button>
