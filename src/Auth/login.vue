@@ -1,46 +1,69 @@
-<script setup></script>
+<script setup>
+</script>
 
 <template>
-  <div class="w-full  p-4 mb-6 bg-white h-full">
-    <div class="flex p-7 mb-4  h-full">
-      <div class="mt-6 ms-6 w-1/2 px-32 py-16 ">
-        <img class="w-full h-full" src="../assets/image.png" alt="" />
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-5xl">
+      
+      <!-- Left Side Image -->
+      <div class="hidden md:block">
+        <img
+          src="../assets/image.png"
+          alt="Side Image"
+          class="w-full h-full object-cover"
+        />
       </div>
-      <div class="mt-6 ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
-        <h1 class="text-2xl  font-bold mb-4 p-4 text-center text-blue-600">
+
+      <!-- Right Side Form -->
+      <div class="flex flex-col justify-center p-8 md:p-12 space-y-6">
+        <!-- Small Logo inside form -->
+        <div class="flex justify-center">
+          <img
+            src="../assets/pngtree-creative-idea-bulb-library-bookshelf-png-image_2095898-removebg-preview.png"
+            alt="Logo"
+            class="w-24 h-24 object-contain"
+          />
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-center text-blue-600">
           Login to Your Account
         </h1>
-        <form class="max-w-sm mx-auto space-y-4">
-          <div class="mb-5">
-            <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
-              >Full Name
+
+        <!-- Form -->
+        <form class="space-y-5">
+          <!-- Name -->
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+              Full Name
             </label>
             <input
-              type="text@"
-              id="text"
-              class="shadow appearance-none border rounded w-full py-2 px-3"
+              type="text"
+              id="name"
+              placeholder="Enter your name"
               required
-              placeholder="Email"
-            />
-          </div>
-          <div class="mb-5">
-            <label
-              for="user-id"
-              class="block text-sm font-bold text-gray-700 mb-2"
-              >Password</label
-            >
-            <input
-              type="password"
-              id=""
-              class="shadow appearance-none border rounded w-full py-2 px-3"
-              placeholder="**********"
-              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
+          <!-- Password -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+              Password
+            </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="********"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
+          </div>
+
+          <!-- Submit Button -->
           <button
             type="submit"
-            class="text-white bg-blue-700 mt-4 hover:bg-blue-800  rounded-lg text-sm  w-full px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
           >
             Login
           </button>
