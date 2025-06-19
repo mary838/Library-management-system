@@ -23,5 +23,7 @@ import Navbar from "./components/Navbar.vue";
 
 const route = useRoute();
 
-const isLoginPage = computed(() => ["/login-book", "/"].includes(route.path));
+const isLoginPage = computed(() =>
+  ["/login-book", "/", "/login-student"].includes(route.path)
+);
 </script>

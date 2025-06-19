@@ -6,6 +6,8 @@ import Borrow from "@/views/Borrow.vue";
 import Student from "@/views/student.vue";
 import Login from "@/Auth/login-book.vue";
 import Hero from "../Auth/login.vue";
+import Newstudent from "../Auth/login-student.vue";
+
 
 const routes = [
   {
@@ -42,11 +44,18 @@ const routes = [
     component: Hero,
     meta: { layout: "auth" },
   },
+  {
+     path: "/login-student",
+    component: Newstudent,
+  
+    meta: { layout: "auth" },
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
 });
+
 
 export default router;
