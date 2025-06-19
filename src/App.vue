@@ -11,7 +11,6 @@
     </div>
   </div>
 
-  <!-- Show only login view -->
   <div v-else class="h-screen">
     <router-view />
   </div>
@@ -24,7 +23,5 @@ import Navbar from "./components/Navbar.vue";
 
 const route = useRoute();
 
-const isLoginPage = computed(() =>
-  ["/login-book", "/login"].includes(route.path)
-);
+const isLoginPage = computed(() => ["/login-book", "/"].includes(route.path));
 </script>

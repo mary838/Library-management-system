@@ -19,7 +19,6 @@ ChartJS.register(
   LinearScale
 );
 
-// Sample data
 const chartData = {
   labels: ["Class 1", "Class 2", "Class 3", "Class 4", "Class 5"],
   datasets: [
@@ -41,7 +40,7 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="max-w-4xl mx-auto p-9">
+  <div class="max-w-4xl mx-auto p-14">
     <Bar :data="chartData" :options="chartOptions" />
   </div>
 </template>

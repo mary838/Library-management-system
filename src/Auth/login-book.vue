@@ -10,8 +10,8 @@
         <form class="max-w-sm mx-auto space-y-4">
           <div class="mb-5">
             <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
-              >Book Name</label
-            >
+              >Book Name
+            </label>
             <input
               type="text"
               id="text"
@@ -21,36 +21,50 @@
             />
           </div>
           <div class="mb-5">
-            <label for="user-id" class="block text-sm font-bold text-gray-700 mb-2"
-              >User ID</label
+            <label
+              for="user_id"
+              class="block text-sm font-bold text-gray-700 mb-2"
             >
-            <input
-              type="Number"
-              id="user-id"
-              class="shadow appearance-none border rounded w-full py-2 px-3"
-              placeholder="Enter Your ID"
-              required
-            />
-          </div>
-          <div class="mb-5">
-            <label for="message" class="block text-sm font-bold text-gray-700 mb-2"
-              >Type</label
-            >
+              User ID
+            </label>
             <input
               type="text"
-              id="text"
+              id="user_id"
+              name="user_id"
+              class="shadow appearance-none border rounded w-full py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+              placeholder="Enter Your User ID"
+            />
+          </div>
+
+          <div class="mb-5">
+            <label
+              for="type"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
+              Type
+            </label>
+            <input
+              type="text"
+              id="type"
+              name="type"
               class="shadow appearance-none border rounded w-full py-2 px-3"
               required
               placeholder="Enter Your Type"
             />
           </div>
+
           <div class="mb-5">
-            <label for="message" class="block text-sm font-bold text-gray-700 mb-2">
-              Timeline</label
+            <label
+              for="timeline"
+              class="block text-sm font-bold text-gray-700 mb-2"
             >
+              Timeline
+            </label>
             <input
               type="text"
-              id="text"
+              id="timeline"
+              name="timeline"
               class="shadow appearance-none border rounded w-full py-2 px-3"
               required
               placeholder="Enter Your Timeline"

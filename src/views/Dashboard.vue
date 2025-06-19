@@ -47,12 +47,12 @@ import Chart from "../components/StudentChart.vue";
       >
         155
         <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
+          class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center"
         >
           <svg
-            class="absolute w-6 h-7 ms-2 mt-1.5 text-red-600"
-            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 text-white"
             viewBox="0 0 384 512"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
               fill="white"
@@ -73,16 +73,16 @@ import Chart from "../components/StudentChart.vue";
       >
         1020
         <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
+          class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center"
         >
           <svg
-            class="absolute w-6 h-8 ms-2 mt-1 text-red-600"
-            xmlns="http://www.w3.org/2000/svg"
+            class="w-6 h-6 text-white"
             viewBox="0 0 448 512"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              clip-rule="evenodd"
               fill="white"
+              clip-rule="evenodd"
               d="M96 0C43 0 0 1 0 96L0 416c0 53 43 96 96 96l288 0 32 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l0-64c17.7 0 32-14.3 32-32l0-320c0-17.7-14.3-32-32-32L384 0 96 0zm0 384l256 0 0 64L96 448c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16zm16 48l192 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-192 0c-8.8 0-16-7.2-16-16s7.2-16 16-16z"
             />
           </svg>

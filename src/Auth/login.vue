@@ -1,46 +1,69 @@
 <script setup>
-import Four from '../assets/Lidrary.png';
 </script>
 
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="bg-white shadow-md rounded-lg p-8 flex w-full max-w-4xl">
-      <!-- Left side (Image) -->
-      <div class="w-1/2 hidden md:flex items-center justify-center">
+  <div class="min-h-screen flex items-center justify-center bg-gray-100 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 bg-white rounded-xl shadow-lg overflow-hidden w-full max-w-5xl">
+      
+      <!-- Left Side Image -->
+      <div class="hidden md:block">
         <img
-          :src="Four"
-          alt="Library School"
-          class="w-full h-auto object-cover rounded-lg"
+          src="../assets/image.png"
+          alt="Side Image"
+          class="w-full h-full object-cover"
         />
       </div>
 
-      <!-- Right side (Form) -->
-      <div class="w-full md:w-1/2 px-4">
-        <h2 class="text-2xl font-bold text-center text-blue-600 mb-6">
-          Welcome To Library School
-        </h2>
-        <form class="space-y-4">
-          <input
-            type="email"
-            placeholder="Email"
-            class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+      <!-- Right Side Form -->
+      <div class="flex flex-col justify-center p-8 md:p-12 space-y-6">
+        <!-- Small Logo inside form -->
+        <div class="flex justify-center">
+          <img
+            src="../assets/pngtree-creative-idea-bulb-library-bookshelf-png-image_2095898-removebg-preview.png"
+            alt="Logo"
+            class="w-24 h-24 object-contain"
           />
-          <div class="relative">
+        </div>
+
+        <!-- Heading -->
+        <h1 class="text-2xl font-bold text-center text-blue-600">
+          Login to Your Account
+        </h1>
+
+        <!-- Form -->
+        <form class="space-y-5">
+          <!-- Name -->
+          <div>
+            <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+              Full Name
+            </label>
             <input
-              type="password"
-              placeholder="Password"
-              class="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-400"
+              type="text"
+              id="name"
+              placeholder="Enter your name"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
-          <div class="flex items-center">
-            <input type="checkbox" id="remember" class="mr-2" />
-            <label for="remember" class="text-sm text-gray-600">
-              Remember me
+
+          <!-- Password -->
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+              Password
             </label>
+            <input
+              type="password"
+              id="password"
+              placeholder="********"
+              required
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            />
           </div>
+
+          <!-- Submit Button -->
           <button
             type="submit"
-            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+            class="w-full py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition"
           >
             Login
           </button>
