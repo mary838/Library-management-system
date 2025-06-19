@@ -1,29 +1,18 @@
 <template>
-  <!-- Show layout only if not on login page -->
-  <div v-if="!isLoginPage" class="h-screen flex">
-    <aside class="flex-shrink-0 h-full">
-      <Navbar />
-    </aside>
-    <div class="flex flex-col flex-1 overflow-hidden">
-      <main class="flex-1 overflow-y-auto">
-        <router-view />
-      </main>
-    </div>
-  </div>
-
-  <div v-else class="h-screen">
+  <component :is="layoutComponent">
     <router-view />
-  </div>
+  </component>
 </template>
 
 <script setup>
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import Navbar from "./components/Navbar.vue";
+import MainLayout from "./layout/MainLayout.vue";
+import AuthLayout from "./layout/AuthLayout.vue";
 
 const route = useRoute();
 
-const isLoginPage = computed(() =>
-  ["/login-book", "/", "/login-student"].includes(route.path)
+const layoutComponent = computed(() =>
+  route.meta.layout === "auth" ? AuthLayout : MainLayout
 );
 </script>
