@@ -21,7 +21,10 @@
             />
           </div>
           <div class="mb-5">
-            <label for="user_id" class="block text-sm font-bold text-gray-700 mb-2">
+            <label
+              for="user_id"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
               User ID
             </label>
             <input
@@ -35,7 +38,10 @@
           </div>
 
           <div class="mb-5">
-            <label for="type" class="block text-sm font-bold text-gray-700 mb-2">
+            <label
+              for="type"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
               Type
             </label>
             <input
@@ -49,7 +55,10 @@
           </div>
 
           <div class="mb-5">
-            <label for="timeline" class="block text-sm font-bold text-gray-700 mb-2">
+            <label
+              for="timeline"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
               Timeline
             </label>
             <input
