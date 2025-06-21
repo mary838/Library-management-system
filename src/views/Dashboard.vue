@@ -9,21 +9,20 @@ import Chart from "../components/StudentChart.vue";
     <Profile />
   </header>
   <div
-    class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-2"
+    class="max-w-screen-xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 p-2"
   >
+    <!-- Card: Students -->
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:border-gray-300 dark:hover:bg-gray-300"
+      class="block w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
+        class="mb-1 text-xl font-semibold flex justify-between items-center text-gray-900"
       >
         300
-        <div
-          class="relative w-10 h-10 overflow-hidden bg-blue-500 rounded-full"
-        >
+        <div class="relative w-8 h-8 bg-blue-500 rounded-full overflow-hidden">
           <svg
-            class="absolute w-12 h-12 p-1 text-red-600 -left-1"
+            class="absolute w-10 h-10 text-red-600 -left-1 p-0.5"
             fill="currentColor"
             viewBox="0 0 20 20"
           >
@@ -31,26 +30,27 @@ import Chart from "../components/StudentChart.vue";
               fill="white"
               d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
               clip-rule="evenodd"
-            ></path>
+            />
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700">Member Student</p>
+      <p class="text-sm font-medium text-gray-700">Member Student</p>
     </a>
 
+    <!-- Card: Borrowed Books -->
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
+      class="block w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
+        class="mb-1 text-xl font-semibold flex justify-between items-center text-gray-900"
       >
         155
         <div
-          class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center"
+          class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
         >
           <svg
-            class="w-6 h-6 text-white"
+            class="w-5 h-5 text-white"
             viewBox="0 0 384 512"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -61,22 +61,23 @@ import Chart from "../components/StudentChart.vue";
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700">Borrowed Books</p>
+      <p class="text-sm font-medium text-gray-700">Borrowed Books</p>
     </a>
 
+    <!-- Card: Total Books -->
     <a
       href="#"
-      class="block w-full p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
+      class="block w-full p-4 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100"
     >
       <h5
-        class="mb-2 text-3xl font-bold flex justify-between items-center tracking-tight text-gray-900"
+        class="mb-1 text-xl font-semibold flex justify-between items-center text-gray-900"
       >
         1020
         <div
-          class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center"
+          class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center"
         >
           <svg
-            class="w-6 h-6 text-white"
+            class="w-5 h-5 text-white"
             viewBox="0 0 448 512"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -88,9 +89,10 @@ import Chart from "../components/StudentChart.vue";
           </svg>
         </div>
       </h5>
-      <p class="font-bold text-gray-700">Number Book</p>
+      <p class="text-sm font-medium text-gray-700">Total Books</p>
     </a>
   </div>
+
   <Chart />
   <List />
 </template>
