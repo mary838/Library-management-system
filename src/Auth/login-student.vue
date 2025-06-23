@@ -9,19 +9,27 @@
         </h1>
         <form class="max-w-sm mx-auto space-y-4">
           <div class="mb-5">
-            <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
-              >Full Name
+            <label
+              for="fullName"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
+              Full Name
             </label>
             <input
               type="text"
-              id="text"
+              id="fullName"
+              name="fullName"
               class="shadow appearance-none border rounded w-full py-2 px-3"
               required
-              placeholder="David Goliath"
+              placeholder="Enter Your Full Name"
             />
           </div>
+
           <div class="mb-5">
-            <label for="user_id" class="block text-sm font-bold text-gray-700 mb-2">
+            <label
+              for="user_id"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
               ID
             </label>
             <input
@@ -35,7 +43,10 @@
           </div>
 
           <div class="mb-5">
-            <label for="type" class="block text-sm font-bold text-gray-700 mb-2">
+            <label
+              for="type"
+              class="block text-sm font-bold text-gray-700 mb-2"
+            >
               Class
             </label>
             <input
@@ -47,20 +58,19 @@
               placeholder="Enter Your Class"
             />
           </div>
-
           <div class="mb-5">
-            <label for="timeline" class="block text-sm font-bold text-gray-700 mb-2">
-              Gmail
+            <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
+              >Full Name
             </label>
             <input
               type="text"
-              id="timeline"
-              name="timeline"
+              id="text"
               class="shadow appearance-none border rounded w-full py-2 px-3"
               required
-              placeholder="Enter Your Gmail"
+              placeholder="David Goliath"
             />
           </div>
+
           <button
             type="submit"
             class="text-white bg-blue-700 mt-4 hover:bg-blue-800 rounded-lg text-sm w-full px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
