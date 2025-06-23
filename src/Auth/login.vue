@@ -8,12 +8,15 @@ const username = ref("");
 const password = ref("");
 const errorMessage = ref("");
 
+// Use env variable for API base URL
+const baseUrl = import.meta.env.VITE_API_BASE_URL;
+
 const handleSubmit = async (e) => {
   e.preventDefault();
   errorMessage.value = "";
 
   try {
-    const res = await fetch("http://localhost:3000/api/auth/login", {
+    const res = await fetch(`${baseUrl}/api/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -29,11 +32,8 @@ const handleSubmit = async (e) => {
     }
 
     const data = await res.json();
-
-    // Assuming your API returns a token in data.token
     localStorage.setItem("token", data.token);
 
-    // Redirect to dashboard after successful login
     router.push("/dashboard");
   } catch (error) {
     errorMessage.value = error.message || "Login failed";
@@ -71,7 +71,7 @@ const handleSubmit = async (e) => {
           Login to Your Account
         </h1>
 
-        <!-- Show error message if any -->
+        <!-- Error message -->
         <p v-if="errorMessage" class="text-red-600 text-center">
           {{ errorMessage }}
         </p>

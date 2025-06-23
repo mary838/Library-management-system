@@ -70,8 +70,8 @@ router.beforeEach((to, from, next) => {
     next({ name: "Login" });
   } else if (
     (to.name === "Login" ||
-      to.name === "LoginBook" ||
-      to.name === "LoginStudent") &&
+      to.name === "Login-Book" ||
+      to.name === "Login-Student") &&
     isAuthenticated
   ) {
     // If already logged in, redirect away from login
