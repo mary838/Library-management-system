@@ -26,7 +26,7 @@ const isActive = (path) => {
 
 const menuItems = [
   { name: "Dashboard", path: "/Dashboard", icon: LayoutDashboard },
-  { name: "Books", path: "/book", icon: BookOpen },
+  { name: "Book", path: "/books", icon: BookOpen },
   { name: "Students", path: "/student", icon: Users },
   { name: "Borrow", path: "/borrow", icon: TrendingUp },
 ];
