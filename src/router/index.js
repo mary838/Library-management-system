@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 
 // Protected pages (only for logged in users)
 import Dashboard from "../views/Dashboard.vue";
-import Book from "../views/book.vue";
+import Book from "../views/books.vue"
 import Borrow from "../views/Borrow.vue";
 import Student from "../views/student.vue";
 
@@ -37,7 +37,7 @@ const routes = [
     meta: { layout: "main", requiresAuth: true },
   },
   {
-    path: "/book",
+    path: "/books",
     name: "Book",
     component: Book,
     meta: { layout: "main", requiresAuth: true },

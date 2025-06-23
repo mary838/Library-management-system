@@ -351,8 +351,10 @@ const deleteBorrow = async (borrow) => {
       throw new Error(`Failed to delete borrow: ${errorText}`);
     }
 
+    // Remove the deleted borrow from the local list immediately
+    borrows.value = borrows.value.filter((b) => b.id !== borrow.id);
+
     alert("✅ Borrow deleted successfully!");
-    fetchBorrows(currentPage.value);
   } catch (error) {
     alert(`❌ Error deleting borrow: ${error.message}`);
   }
