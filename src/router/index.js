@@ -43,7 +43,7 @@ const routes = [
     meta: { layout: "main", requiresAuth: true },
   },
   {
-    path: "/borrow",
+    path: "/Borrow",
     name: "Borrow",
     component: Borrow,
     meta: { layout: "main", requiresAuth: true },
