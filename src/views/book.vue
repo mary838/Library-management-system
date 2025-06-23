@@ -1,7 +1,47 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'
+
+const books = ref([])
+const currentPage = ref(1)
+const totalPages = ref(1)
+
+const apiUrl = 'http://localhost:3000/api/books'
+const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjUwODAzfQ.rCw2xX44AXo6eDbMHKiDJWpTwJU4YqPxRGQF0h6QQjE'
+
+async function fetchBooks(page = 1, limit = 10) {
+  try {
+    const res = await fetch(`${apiUrl}?page=${page}&limit=${limit}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+
+    if (!res.ok) throw new Error('Failed to fetch data')
+
+    const data = await res.json()
+
+    books.value = data.books
+    currentPage.value = data.currentPage
+    totalPages.value = data.totalPages
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+function goToPage(page) {
+  if (page !== currentPage.value && page >= 1 && page <= totalPages.value) {
+    fetchBooks(page)
+  }
+}
+
+onMounted(() => {
+  fetchBooks()
+})
+</script>
 
 <template>
   <div class="h-screen flex flex-col">
+    <!-- Search and Add Book -->
     <div class="sticky top-0 z-10 bg-white shadow-md p-4">
       <div
         class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4"
@@ -45,160 +85,71 @@
         </router-link>
       </div>
     </div>
-    <div class="overflow-x-auto relative shadow-md p-6 sm:rounded-lg mb-8">
-      <div class="overflow-x-auto relative shadow-md sm:rounded-lg">
-        <table
-          class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-        >
-          <thead
-            class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-          >
-            <tr>
-              <th scope="col" class="px-6 py-3 text-blue-600">Library</th>
-              <th scope="col" class="px-6 py-3 text-blue-600">Loan Type</th>
-              <th scope="col" class="px-6 py-3 text-blue-600">Classmark</th>
-              <th scope="col" class="px-6 py-3 text-blue-600">Item Barcod</th>
-              <th scope="col" class="px-6 py-3 text-blue-600">
-                Collection/Status
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
 
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+    <!-- Books Table -->
+    <div class="overflow-x-auto relative shadow-md p-6 sm:rounded-lg mb-8">
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+        >
+          <tr>
+            <th scope="col" class="px-6 py-3 text-blue-600">Title</th>
+            <th scope="col" class="px-6 py-3 text-blue-600">Author</th>
+            <th scope="col" class="px-6 py-3 text-blue-600">Quantity</th>
+            <th scope="col" class="px-6 py-3 text-blue-600">Category</th>
+            <th scope="col" class="px-6 py-3 text-blue-600">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            v-for="book in books"
+            :key="book.id"
+            class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+          >
+            <td
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
             >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              {{ book.title }}
+            </td>
+            <td class="px-6 py-4">{{ book.author_name }}</td>
+            <td class="px-6 py-4">{{ book.quantity }}</td>
+            <td class="px-6 py-4">{{ book.category }}</td>
+            <td class="px-6 py-4">{{ book.description }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <nav class="mt-4 flex justify-center" aria-label="Pagination">
+        <ul class="inline-flex">
+          <li>
+            <button
+              @click="goToPage(1)"
+              :class="[
+          'px-3 py-2 border rounded-lg mx-1',  /* added mx-1 for horizontal margin */
+          currentPage === 1
+            ? 'bg-blue-600 text-white border-blue-600'
+            : 'bg-white text-blue-600 hover:bg-blue-100'
+        ]"
             >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+              1
+            </button>
+          </li>
+          <li>
+            <button
+              @click="goToPage(2)"
+              :class="[
+          'px-3 py-2 border rounded-lg mx-1',  /* added mx-1 here too */
+          currentPage === 2
+            ? 'bg-blue-600 text-white border-blue-600'
+            : 'bg-white text-blue-600 hover:bg-blue-100'
+        ]"
             >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-            <tr
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              <td
-                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
-                Augustine House
-              </td>
-              <td class="px-6 py-4">4week loan</td>
-              <td class="px-6 py-4">378.170281 COT</td>
-              <td class="px-6 py-4">360762200X</td>
-              <td class="px-6 py-4">Main Collection</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              2
+            </button>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
-  <div></div>
 </template>
