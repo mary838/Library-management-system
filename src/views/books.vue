@@ -1,146 +1,3 @@
-<script setup>
-import { ref, onMounted, watch } from "vue";
-
-function debounce(fn, delay) {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => {
-      fn(...args);
-    }, delay);
-  };
-}
-
-const books = ref([]);
-const currentPage = ref(1);
-const totalPages = ref(1);
-const searchQuery = ref("");
-
-const apiUrl = "http://localhost:3000/api/books";
-const searchUrl = "http://localhost:3000/api/books/search";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjc5MDEwfQ.XDmCEGE3ZMmGaH86SznIcF97MFKRR8sk-UiBOLE2pcw";
-
-async function fetchBooks(page = 1, limit = 10, query = "") {
-  try {
-    const url = query
-      ? `${searchUrl}?query=${encodeURIComponent(
-          query
-        )}&page=${page}&limit=${limit}`
-      : `${apiUrl}?page=${page}&limit=${limit}`;
-
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!res.ok) throw new Error("Failed to fetch data");
-
-    const data = await res.json();
-
-    books.value = data.books || data || [];
-    currentPage.value = data.currentPage || 1;
-    totalPages.value = data.totalPages || 1;
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-const debouncedFetchBooks = debounce((query) => {
-  fetchBooks(1, 10, query);
-}, 500);
-
-watch(searchQuery, (newQuery) => {
-  debouncedFetchBooks(newQuery.trim());
-});
-
-function goToPage(page) {
-  if (page !== currentPage.value && page >= 1 && page <= totalPages.value) {
-    fetchBooks(page, 10, searchQuery.value.trim());
-  }
-}
-
-const selectedBook = ref(null);
-const showUpdateModal = ref(false);
-
-async function handleUpdate(book) {
-  try {
-    const res = await fetch(`${apiUrl}/${book.id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!res.ok) throw new Error("Failed to fetch book data");
-
-    const data = await res.json();
-    selectedBook.value = {
-      ...data,
-      author_name: data.author_name || "",
-      category: data.category || "",
-      description: data.description || "",
-    };
-    showUpdateModal.value = true;
-  } catch (error) {
-    alert(error.message);
-  }
-}
-
-async function submitUpdate() {
-  if (!selectedBook.value) return;
-
-  const payload = {
-    title: selectedBook.value.title,
-    description: selectedBook.value.description,
-    author_id: selectedBook.value.author_id,
-    category_id: selectedBook.value.category_id,
-    quantity: selectedBook.value.quantity,
-  };
-
-  try {
-    const res = await fetch(`${apiUrl}/${selectedBook.value.id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || "Failed to update book");
-    }
-
-    alert("Book updated successfully!");
-    showUpdateModal.value = false;
-    fetchBooks(currentPage.value, 10, searchQuery.value.trim());
-  } catch (error) {
-    alert(error.message);
-  }
-}
-
-async function handleDelete(book) {
-  if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return;
-
-  try {
-    const res = await fetch(`${apiUrl}/${book.id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    if (!res.ok) throw new Error("Failed to delete book");
-
-    fetchBooks(currentPage.value, 10, searchQuery.value.trim());
-  } catch (error) {
-    alert("Error deleting book");
-  }
-}
-
-onMounted(() => {
-  fetchBooks();
-});
-</script>
-
 <template>
   <div class="h-screen flex flex-col">
     <!-- Search and Add Book -->
@@ -329,3 +186,152 @@ onMounted(() => {
     </div>
   </div>
 </template>
+<script setup>
+import { ref, onMounted, watch } from "vue";
+
+function debounce(fn, delay) {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      fn(...args);
+    }, delay);
+  };
+}
+
+const books = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const searchQuery = ref("");
+
+const apiUrl = "http://localhost:3000/api/books";
+const searchUrl = "http://localhost:3000/api/books/search";
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjc5MDEwfQ.XDmCEGE3ZMmGaH86SznIcF97MFKRR8sk-UiBOLE2pcw";
+
+async function fetchBooks(page = 1, limit = 10, query = "") {
+  try {
+    const url = query
+      ? `${searchUrl}?query=${encodeURIComponent(
+          query
+        )}&page=${page}&limit=${limit}`
+      : `${apiUrl}?page=${page}&limit=${limit}`;
+
+    const res = await fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch data");
+
+    const data = await res.json();
+
+    books.value = data.books || data || [];
+    currentPage.value = data.currentPage || 1;
+    totalPages.value = data.totalPages || 1;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+const debouncedFetchBooks = debounce((query) => {
+  fetchBooks(1, 10, query);
+}, 500);
+
+watch(searchQuery, (newQuery) => {
+  debouncedFetchBooks(newQuery.trim());
+});
+
+function goToPage(page) {
+  if (page !== currentPage.value && page >= 1 && page <= totalPages.value) {
+    fetchBooks(page, 10, searchQuery.value.trim());
+  }
+}
+
+const selectedBook = ref(null);
+const showUpdateModal = ref(false);
+
+async function handleUpdate(book) {
+  try {
+    const res = await fetch(`${apiUrl}/${book.id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!res.ok) throw new Error("Failed to fetch book data");
+
+    const data = await res.json();
+    selectedBook.value = {
+      ...data,
+      author_name: data.author_name || "",
+      category: data.category || "",
+      description: data.description || "",
+    };
+    showUpdateModal.value = true;
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+async function submitUpdate() {
+  if (!selectedBook.value) return;
+
+  const payload = {
+    title: selectedBook.value.title,
+    description: selectedBook.value.description,
+    author_id: selectedBook.value.author_id,
+    category_id: selectedBook.value.category_id,
+    quantity: selectedBook.value.quantity,
+  };
+
+  try {
+    const res = await fetch(`${apiUrl}/${selectedBook.value.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to update book");
+    }
+
+    alert("Book updated successfully!");
+    showUpdateModal.value = false;
+    await fetchBooks(currentPage.value, 10, searchQuery.value.trim());
+  } catch (error) {
+    alert(error.message);
+  }
+}
+
+async function handleDelete(book) {
+  console.log("Deleting book ID:", book.id); // Debug log
+
+  if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return;
+
+  try {
+    const res = await fetch(`${apiUrl}/${book.id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to delete book");
+    }
+
+    alert("Book deleted successfully.");
+    await fetchBooks(currentPage.value, 10, searchQuery.value.trim());
+  } catch (error) {
+    alert("Error deleting book: " + error.message);
+  }
+}
+
+onMounted(() => {
+  fetchBooks();
+});
+</script>
