@@ -2,7 +2,9 @@
   <div class="h-screen flex flex-col">
     <!-- Fixed Header -->
     <div class="sticky top-0 z-10 bg-white shadow-md p-4">
-      <div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+      <div
+        class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4"
+      >
         <form class="w-full sm:w-96">
           <div class="relative">
             <div
@@ -45,8 +47,12 @@
 
     <!-- Scrollable Table -->
     <div class="overflow-auto flex-grow p-6">
-      <table class="w-full text-sm text-left text-gray-500 shadow-md sm:rounded-lg">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-0">
+      <table
+        class="w-full text-sm text-left text-gray-500 shadow-md sm:rounded-lg"
+      >
+        <thead
+          class="text-xs text-gray-700 uppercase bg-gray-50 sticky top-0 z-0"
+        >
           <tr class="bg-white border-b border-gray-200">
             <th scope="col" class="p-4"></th>
             <th scope="col" class="px-6 py-3 text-blue-500">Student Name</th>
@@ -63,7 +69,10 @@
             class="bg-white border-b border-gray-200 hover:bg-gray-50"
           >
             <td class="w-4 p-4"></td>
-            <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+            <th
+              scope="row"
+              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+            >
               Student {{ i }}
             </th>
             <td class="px-6 py-4">STU{{ String(i).padStart(3, "0") }}</td>
