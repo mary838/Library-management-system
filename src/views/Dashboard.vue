@@ -130,3 +130,4 @@ onMounted(() => {
 
   <Chart />
 </template>
+
