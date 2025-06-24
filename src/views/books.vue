@@ -28,7 +28,7 @@
             <input
               v-model="searchQuery"
               type="search"
-              placeholder="Search books..."
+              placeholder="Search books by title or ID..."
               class="block w-full ps-10 py-2 text-sm text-gray-900 border border-blue-400 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
@@ -48,6 +48,7 @@
       <table class="w-full text-sm text-left text-gray-500">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50">
           <tr>
+            <th class="px-6 py-3 text-blue-600">ID</th>
             <th class="px-6 py-3 text-blue-600">Title</th>
             <th class="px-6 py-3 text-blue-600">Author</th>
             <th class="px-6 py-3 text-blue-600">Quantity</th>
@@ -62,6 +63,7 @@
             :key="book.id"
             class="bg-white border-b hover:bg-gray-50"
           >
+            <td class="px-6 py-4 font-medium text-gray-900">{{ book.id }}</td>
             <td class="px-6 py-4 font-medium text-gray-900">
               {{ book.title }}
             </td>
@@ -87,15 +89,19 @@
             </td>
           </tr>
           <tr v-if="books.length === 0">
-            <td colspan="6" class="text-center py-4 text-gray-400">
+            <td colspan="7" class="text-center py-4 text-gray-400">
               No books found
             </td>
           </tr>
         </tbody>
       </table>
 
-      <!-- Pagination -->
-      <nav class="mt-4 flex justify-center" aria-label="Pagination">
+      <!-- Pagination (hidden while searching) -->
+      <nav
+        v-if="!searchQuery"
+        class="mt-4 flex justify-center"
+        aria-label="Pagination"
+      >
         <ul class="inline-flex">
           <li v-for="page in totalPages" :key="page">
             <button
@@ -186,9 +192,11 @@
     </div>
   </div>
 </template>
+
 <script setup>
 import { ref, onMounted, watch } from "vue";
 
+// Debounce helper to limit API calls during typing
 function debounce(fn, delay) {
   let timeoutId;
   return (...args) => {
@@ -204,43 +212,76 @@ const currentPage = ref(1);
 const totalPages = ref(1);
 const searchQuery = ref("");
 
+// Get token dynamically from localStorage
+const token = ref(localStorage.getItem("token") || "");
+
 const apiUrl = "http://localhost:3000/api/books";
 const searchUrl = "http://localhost:3000/api/books/search";
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjc5MDEwfQ.XDmCEGE3ZMmGaH86SznIcF97MFKRR8sk-UiBOLE2pcw";
 
+// Fetch books with optional search query
 async function fetchBooks(page = 1, limit = 10, query = "") {
   try {
-    const url = query
-      ? `${searchUrl}?query=${encodeURIComponent(
-          query
-        )}&page=${page}&limit=${limit}`
-      : `${apiUrl}?page=${page}&limit=${limit}`;
+    if (!query) {
+      // No search: fetch paginated books
+      const res = await fetch(`${apiUrl}?page=${page}&limit=${limit}`, {
+        headers: { Authorization: `Bearer ${token.value}` },
+      });
+      if (!res.ok) throw new Error("Failed to fetch data");
+      const data = await res.json();
+      books.value = data.books || data || [];
+      currentPage.value = data.currentPage || 1;
+      totalPages.value = data.totalPages || 1;
+      return;
+    }
 
-    const res = await fetch(url, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    // Search by ID if query is numeric
+    let byIdResults = [];
+    if (/^\d+$/.test(query)) {
+      const res = await fetch(`${apiUrl}/${query}`, {
+        headers: { Authorization: `Bearer ${token.value}` },
+      });
+      if (res.ok) {
+        const book = await res.json();
+        if (book) byIdResults = [book];
+      }
+    }
 
+    // Search by title using search API
+    const res = await fetch(
+      `${searchUrl}?query=${encodeURIComponent(
+        query
+      )}&page=${page}&limit=${limit}`,
+      {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }
+    );
     if (!res.ok) throw new Error("Failed to fetch data");
-
     const data = await res.json();
 
-    books.value = data.books || data || [];
-    currentPage.value = data.currentPage || 1;
-    totalPages.value = data.totalPages || 1;
+    // Extract books from response
+    const byTitleResults = data.books || data || [];
+
+    // Merge unique books by ID: id matches removed duplicates
+    const combinedMap = new Map();
+    [...byTitleResults, ...byIdResults].forEach((book) => {
+      combinedMap.set(book.id, book);
+    });
+
+    books.value = Array.from(combinedMap.values());
+    currentPage.value = 1;
+    totalPages.value = 1; // disable pagination while searching
   } catch (error) {
-    console.error(error);
+    console.error("Fetch error:", error);
+    books.value = [];
   }
 }
 
 const debouncedFetchBooks = debounce((query) => {
-  fetchBooks(1, 10, query);
+  fetchBooks(1, 10, query.trim());
 }, 500);
 
 watch(searchQuery, (newQuery) => {
-  debouncedFetchBooks(newQuery.trim());
+  debouncedFetchBooks(newQuery);
 });
 
 function goToPage(page) {
@@ -255,7 +296,7 @@ const showUpdateModal = ref(false);
 async function handleUpdate(book) {
   try {
     const res = await fetch(`${apiUrl}/${book.id}`, {
-      headers: { Authorization: `Bearer ${token}` },
+      headers: { Authorization: `Bearer ${token.value}` },
     });
     if (!res.ok) throw new Error("Failed to fetch book data");
 
@@ -288,7 +329,7 @@ async function submitUpdate() {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.value}`,
       },
       body: JSON.stringify(payload),
     });
@@ -307,15 +348,13 @@ async function submitUpdate() {
 }
 
 async function handleDelete(book) {
-  console.log("Deleting book ID:", book.id); // Debug log
-
   if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return;
 
   try {
     const res = await fetch(`${apiUrl}/${book.id}`, {
       method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token.value}`,
       },
     });
 
