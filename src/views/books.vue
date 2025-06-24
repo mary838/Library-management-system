@@ -1,90 +1,91 @@
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, onMounted, watch } from "vue";
 
 function debounce(fn, delay) {
-  let timeoutId
+  let timeoutId;
   return (...args) => {
-    clearTimeout(timeoutId)
+    clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
-      fn(...args)
-    }, delay)
-  }
+      fn(...args);
+    }, delay);
+  };
 }
 
-const books = ref([])
-const currentPage = ref(1)
-const totalPages = ref(1)
-const searchQuery = ref('')
+const books = ref([]);
+const currentPage = ref(1);
+const totalPages = ref(1);
+const searchQuery = ref("");
 
-const apiUrl = 'http://localhost:3000/api/books'
-const searchUrl = 'http://localhost:3000/api/books/search'
+const apiUrl = "http://localhost:3000/api/books";
+const searchUrl = "http://localhost:3000/api/books/search";
 const token =
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjc5MDEwfQ.XDmCEGE3ZMmGaH86SznIcF97MFKRR8sk-UiBOLE2pcw'
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImxpYmVyaWFuIiwiaWF0IjoxNzUwNjc5MDEwfQ.XDmCEGE3ZMmGaH86SznIcF97MFKRR8sk-UiBOLE2pcw";
 
-async function fetchBooks(page = 1, limit = 10, query = '') {
+async function fetchBooks(page = 1, limit = 10, query = "") {
   try {
     const url = query
-      ? `${searchUrl}?query=${encodeURIComponent(query)}&page=${page}&limit=${limit}`
-      : `${apiUrl}?page=${page}&limit=${limit}`
+      ? `${searchUrl}?query=${encodeURIComponent(
+          query
+        )}&page=${page}&limit=${limit}`
+      : `${apiUrl}?page=${page}&limit=${limit}`;
 
     const res = await fetch(url, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
+    });
 
-    if (!res.ok) throw new Error('Failed to fetch data')
+    if (!res.ok) throw new Error("Failed to fetch data");
 
-    const data = await res.json()
+    const data = await res.json();
 
-    books.value = data.books || data || []
-    currentPage.value = data.currentPage || 1
-    totalPages.value = data.totalPages || 1
+    books.value = data.books || data || [];
+    currentPage.value = data.currentPage || 1;
+    totalPages.value = data.totalPages || 1;
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
 const debouncedFetchBooks = debounce((query) => {
-  fetchBooks(1, 10, query)
-}, 500)
+  fetchBooks(1, 10, query);
+}, 500);
 
 watch(searchQuery, (newQuery) => {
-  debouncedFetchBooks(newQuery.trim())
-})
+  debouncedFetchBooks(newQuery.trim());
+});
 
 function goToPage(page) {
   if (page !== currentPage.value && page >= 1 && page <= totalPages.value) {
-    fetchBooks(page, 10, searchQuery.value.trim())
+    fetchBooks(page, 10, searchQuery.value.trim());
   }
 }
 
-// For update modal & data
-const selectedBook = ref(null)
-const showUpdateModal = ref(false)
+const selectedBook = ref(null);
+const showUpdateModal = ref(false);
 
 async function handleUpdate(book) {
   try {
     const res = await fetch(`${apiUrl}/${book.id}`, {
       headers: { Authorization: `Bearer ${token}` },
-    })
-    if (!res.ok) throw new Error('Failed to fetch book data')
+    });
+    if (!res.ok) throw new Error("Failed to fetch book data");
 
-    const data = await res.json()
+    const data = await res.json();
     selectedBook.value = {
       ...data,
-      author_name: data.author_name || '',
-      category: data.category || '',
-      description: data.description || '',
-    }
-    showUpdateModal.value = true
+      author_name: data.author_name || "",
+      category: data.category || "",
+      description: data.description || "",
+    };
+    showUpdateModal.value = true;
   } catch (error) {
-    alert(error.message)
+    alert(error.message);
   }
 }
 
 async function submitUpdate() {
-  if (!selectedBook.value) return
+  if (!selectedBook.value) return;
 
   const payload = {
     title: selectedBook.value.title,
@@ -92,62 +93,66 @@ async function submitUpdate() {
     author_id: selectedBook.value.author_id,
     category_id: selectedBook.value.category_id,
     quantity: selectedBook.value.quantity,
-  }
+  };
 
   try {
     const res = await fetch(`${apiUrl}/${selectedBook.value.id}`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(payload),
-    })
+    });
 
     if (!res.ok) {
-      const err = await res.json()
-      throw new Error(err.message || 'Failed to update book')
+      const err = await res.json();
+      throw new Error(err.message || "Failed to update book");
     }
 
-    alert('Book updated successfully!')
-    showUpdateModal.value = false
-    fetchBooks(currentPage.value, 10, searchQuery.value.trim())
+    alert("Book updated successfully!");
+    showUpdateModal.value = false;
+    fetchBooks(currentPage.value, 10, searchQuery.value.trim());
   } catch (error) {
-    alert(error.message)
+    alert(error.message);
   }
 }
 
 async function handleDelete(book) {
-  if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return
+  if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return;
 
   try {
     const res = await fetch(`${apiUrl}/${book.id}`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
-    if (!res.ok) throw new Error('Failed to delete book')
+    });
+    if (!res.ok) throw new Error("Failed to delete book");
 
-    fetchBooks(currentPage.value, 10, searchQuery.value.trim())
+    fetchBooks(currentPage.value, 10, searchQuery.value.trim());
   } catch (error) {
-    alert('Error deleting book')
+    alert("Error deleting book");
   }
 }
 
 onMounted(() => {
-  fetchBooks()
-})
+  fetchBooks();
+});
 </script>
 
 <template>
   <div class="h-screen flex flex-col">
     <!-- Search and Add Book -->
     <div class="sticky top-0 z-10 bg-white shadow-md p-4">
-      <div class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4">
+      <div
+        class="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4"
+      >
         <div class="w-full sm:w-96">
           <div class="relative">
-            <div class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
+            <div
+              class="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none"
+            >
               <svg
                 class="w-4 h-4 text-gray-500"
                 xmlns="http://www.w3.org/2000/svg"
@@ -200,24 +205,28 @@ onMounted(() => {
             :key="book.id"
             class="bg-white border-b hover:bg-gray-50"
           >
-            <td class="px-6 py-4 font-medium text-gray-900">{{ book.title }}</td>
+            <td class="px-6 py-4 font-medium text-gray-900">
+              {{ book.title }}
+            </td>
             <td class="px-6 py-4">{{ book.author_name }}</td>
             <td class="px-6 py-4">{{ book.quantity }}</td>
             <td class="px-6 py-4">{{ book.category }}</td>
             <td class="px-6 py-4">{{ book.description }}</td>
-            <td class="px-6 py-4 text-center space-x-2">
-              <button
-                @click="handleUpdate(book)"
-                class="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded-md text-sm"
-              >
-                Update
-              </button>
-              <button
-                @click="handleDelete(book)"
-                class="text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md text-sm"
-              >
-                Delete
-              </button>
+            <td class="px-6 py-4 text-center">
+              <div class="flex justify-center gap-2">
+                <button
+                  @click="handleUpdate(book)"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-yellow-800 bg-yellow-100 hover:bg-yellow-200 border border-yellow-300 px-3 py-1 rounded-md transition"
+                >
+                  Edit
+                </button>
+                <button
+                  @click="handleDelete(book)"
+                  class="inline-flex items-center gap-1 text-sm font-medium text-red-800 bg-red-100 hover:bg-red-200 border border-red-300 px-3 py-1 rounded-md transition"
+                >
+                  Delete
+                </button>
+              </div>
             </td>
           </tr>
           <tr v-if="books.length === 0">
@@ -255,10 +264,7 @@ onMounted(() => {
     >
       <div class="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
         <h3 class="text-xl font-semibold mb-4">Update Book</h3>
-        <form
-          @submit.prevent="submitUpdate"
-          class="space-y-4"
-        >
+        <form @submit.prevent="submitUpdate" class="space-y-4">
           <div>
             <label class="block font-semibold mb-1">Title</label>
             <input
