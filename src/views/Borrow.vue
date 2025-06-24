@@ -14,8 +14,10 @@
       </button>
     </div>
   </div>
+
   <div class="min-h-screen bg-gray-50 p-6">
     <div class="max-w-5xl mx-auto space-y-6">
+      <!-- Borrow Form -->
       <transition name="fade">
         <form
           v-show="isFormVisible"
@@ -42,9 +44,17 @@
                     form.book_id = book.id;
                     bookSearch = book.title;
                   "
-                  class="px-3 py-2 hover:bg-blue-100 cursor-pointer"
+                  class="px-3 py-2 hover:bg-blue-100 cursor-pointer flex justify-between items-center"
                 >
-                  {{ book.title }} — {{ book.author_name }}
+                  <span>{{ book.title }} — {{ book.author_name }}</span>
+                  <button
+                    @click.stop="handleDeleteBook(book)"
+                    class="text-red-600 text-xs px-2 py-1 border border-red-400 rounded hover:bg-red-100"
+                    :disabled="deletingBookId === book.id"
+                    title="Delete Book"
+                  >
+                    {{ deletingBookId === book.id ? "Deleting..." : "Delete" }}
+                  </button>
                 </li>
               </ul>
             </div>
@@ -85,6 +95,7 @@
         </form>
       </transition>
 
+      <!-- Loading / Error -->
       <div v-if="isLoading" class="text-center py-10">
         <div
           class="animate-spin h-8 w-8 mx-auto text-blue-500 border-4 border-blue-300 border-t-transparent rounded-full"
@@ -96,6 +107,7 @@
         {{ errorMessage }}
       </div>
 
+      <!-- Borrows Table -->
       <div v-else>
         <table
           class="w-full text-sm text-left text-gray-700 table-auto border border-gray-200 bg-white rounded-lg shadow-md overflow-hidden"
@@ -163,10 +175,13 @@
                 <div class="flex gap-2">
                   <button
                     @click="deleteBorrow(borrow)"
-                    class="px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 border border-red-300 rounded hover:bg-red-200 transition"
+                    :disabled="deletingBorrowId === borrow.id"
+                    class="px-3 py-1 text-xs font-semibold text-red-800 bg-red-100 border border-red-300 rounded hover:bg-red-200 transition disabled:opacity-50"
                     title="Delete Borrow"
                   >
-                    Delete
+                    {{
+                      deletingBorrowId === borrow.id ? "Deleting..." : "Delete"
+                    }}
                   </button>
                   <button
                     v-if="!borrow.return_date"
@@ -182,6 +197,7 @@
           </tbody>
         </table>
 
+        <!-- Pagination -->
         <div class="flex justify-center items-center gap-2 mt-4 flex-wrap">
           <button
             @click="goToPage(currentPage - 1)"
@@ -245,6 +261,10 @@ const toggleForm = () => {
 
 const bookSearch = ref("");
 const studentSearch = ref("");
+
+// For disabling buttons during delete
+const deletingBorrowId = ref(null);
+const deletingBookId = ref(null);
 
 const filteredBooks = computed(() => {
   const q = bookSearch.value.toLowerCase();
@@ -338,6 +358,7 @@ const handleAddBorrow = async () => {
 
 const deleteBorrow = async (borrow) => {
   if (!confirm(`Delete borrow ID ${borrow.id}?`)) return;
+  deletingBorrowId.value = borrow.id;
 
   try {
     const token = localStorage.getItem("token");
@@ -351,12 +372,39 @@ const deleteBorrow = async (borrow) => {
       throw new Error(`Failed to delete borrow: ${errorText}`);
     }
 
-    // Remove the deleted borrow from the local list immediately
+    // Update local list or refetch to update pagination correctly
     borrows.value = borrows.value.filter((b) => b.id !== borrow.id);
-
     alert("✅ Borrow deleted successfully!");
   } catch (error) {
     alert(`❌ Error deleting borrow: ${error.message}`);
+  } finally {
+    deletingBorrowId.value = null;
+  }
+};
+
+const handleDeleteBook = async (book) => {
+  if (!confirm(`Are you sure you want to delete "${book.title}"?`)) return;
+  deletingBookId.value = book.id;
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${baseUrl}/api/books/${book.id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to delete book");
+    }
+
+    alert("Book deleted successfully.");
+    // Refresh books list after deletion
+    await fetchStudentsAndBooks();
+  } catch (error) {
+    alert("Error deleting book: " + error.message);
+  } finally {
+    deletingBookId.value = null;
   }
 };
 
