@@ -1,76 +1,125 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const token = localStorage.getItem("token") || "";
+
+// Form fields
+const fullName = ref("");
+const idCard = ref("");
+const studentClass = ref("");
+
+// Class options
+const classOptions = ["wmad", "accounting", "sales"];
+
+// API URL
+const apiUrl = "http://localhost:3000/api/students";
+
+async function handleSubmit() {
+  if (!fullName.value || !idCard.value || !studentClass.value) {
+    alert("Please fill all fields");
+    return;
+  }
+
+  const payload = {
+    full_name: fullName.value,
+    id_card: idCard.value,
+    student_class: studentClass.value,
+  };
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to create student");
+    }
+
+    alert("Student created successfully!");
+    router.push("/student");
+  } catch (error) {
+    alert("Error: " + error.message);
+  }
+}
+
+function goBack() {
+  router.back();
+}
+</script>
 
 <template>
   <div class="w-full p-4 mb-6 bg-white h-full">
     <div class="flex p-7 mb-4 h-full">
-      <div class="mt-6 ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
+      <div class="ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
         <h1 class="text-2xl font-bold mb-4 p-4 text-center text-blue-600">
           Add New Student
         </h1>
-        <form class="max-w-sm mx-auto space-y-4">
-          <div class="mb-5">
-            <label for="Name" class="block text-sm font-bold text-gray-700 mb-2"
-              >Full Name
-            </label>
+        <form class="max-w-sm mx-auto space-y-4" @submit.prevent="handleSubmit">
+          <div>
+            <label for="fullName" class="block text-sm font-bold mb-2">Full Name</label>
             <input
               type="text"
-              id="text"
-              class="shadow appearance-none border rounded w-full py-2 px-3"
+              id="fullName"
+              v-model="fullName"
+              class="shadow border rounded w-full py-2 px-3"
               required
-              placeholder="David Goliath"
-            />
-          </div>
-          <div class="mb-5">
-            <label for="user_id" class="block text-sm font-bold text-gray-700 mb-2">
-              ID
-            </label>
-            <input
-              type="text"
-              id="user_id"
-              name="user_id"
-              class="shadow appearance-none border rounded w-full py-2 px-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              required
-              placeholder="Enter Your User ID"
             />
           </div>
 
-          <div class="mb-5">
-            <label for="type" class="block text-sm font-bold text-gray-700 mb-2">
-              Class
-            </label>
+          <div>
+            <label for="idCard" class="block text-sm font-bold mb-2">ID Card</label>
             <input
               type="text"
-              id="type"
-              name="type"
-              class="shadow appearance-none border rounded w-full py-2 px-3"
+              id="idCard"
+              v-model="idCard"
+              class="shadow border rounded w-full py-2 px-3"
               required
-              placeholder="Enter Your Class"
             />
           </div>
 
-          <div class="mb-5">
-            <label for="timeline" class="block text-sm font-bold text-gray-700 mb-2">
-              Gmail
-            </label>
-            <input
-              type="text"
-              id="timeline"
-              name="timeline"
-              class="shadow appearance-none border rounded w-full py-2 px-3"
+          <div>
+            <label for="studentClass" class="block text-sm font-bold mb-2"
+              >Student Class</label
+            >
+            <select
+              id="studentClass"
+              v-model="studentClass"
+              class="shadow border rounded w-full py-2 px-3"
               required
-              placeholder="Enter Your Gmail"
-            />
+            >
+              <option value="" disabled>Select class</option>
+              <option v-for="option in classOptions" :key="option" :value="option">
+                {{ option }}
+              </option>
+            </select>
           </div>
+
           <button
             type="submit"
-            class="text-white bg-blue-700 mt-4 hover:bg-blue-800 rounded-lg text-sm w-full px-3 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm w-full px-3 py-2 mt-4"
           >
             Add Student
           </button>
+          <button
+            type="button"
+            @click="goBack"
+            class="text-gray-700 bg-gray-200 rounded-lg text-sm w-full px-3 py-2 hover:bg-gray-300"
+          >
+            Back
+          </button>
         </form>
       </div>
+
       <div class="mt-6 ms-6 w-1/2 px-32 py-16">
-        <img class="w-full h-full" src="../assets/image.png" alt="" />
+        <img class="w-full h-full" src="../assets/image.png" alt="Student Image" />
       </div>
     </div>
   </div>
