@@ -67,9 +67,9 @@
             <td class="px-6 py-4 font-medium text-gray-900">
               {{ book.title }}
             </td>
-            <td class="px-6 py-4">{{ book.author_name }}</td>
+            <td class="px-6 py-4">{{ book.author_name || 'N/A' }}</td>
             <td class="px-6 py-4">{{ book.quantity }}</td>
-            <td class="px-6 py-4">{{ book.category }}</td>
+            <td class="px-6 py-4">{{ book.category || 'N/A' }}</td>
             <td class="px-6 py-4">{{ book.description }}</td>
             <td class="px-6 py-4 text-center">
               <div class="flex justify-center gap-2">
@@ -145,24 +145,35 @@
               class="w-full border border-gray-300 rounded px-3 py-2"
             />
           </div>
+
           <div>
-            <label class="block font-semibold mb-1">Author ID</label>
-            <input
+            <label class="block font-semibold mb-1">Author</label>
+            <select
               v-model.number="selectedBook.author_id"
-              type="number"
               class="w-full border border-gray-300 rounded px-3 py-2"
               required
-            />
+            >
+              <option value="" disabled>Select an author</option>
+              <option v-for="author in authors" :key="author.id" :value="author.id">
+                {{ author.full_name }}
+              </option>
+            </select>
           </div>
+
           <div>
-            <label class="block font-semibold mb-1">Category ID</label>
-            <input
+            <label class="block font-semibold mb-1">Category</label>
+            <select
               v-model.number="selectedBook.category_id"
-              type="number"
               class="w-full border border-gray-300 rounded px-3 py-2"
               required
-            />
+            >
+              <option value="" disabled>Select a category</option>
+              <option v-for="cat in categories" :key="cat.id" :value="cat.id">
+                {{ cat.name }}
+              </option>
+            </select>
           </div>
+
           <div>
             <label class="block font-semibold mb-1">Quantity</label>
             <input
@@ -217,6 +228,30 @@ const token = ref(localStorage.getItem("token") || "");
 
 const apiUrl = "http://localhost:3000/api/books";
 const searchUrl = "http://localhost:3000/api/books/search";
+
+const authors = ref([]);
+const categories = ref([]);
+
+// Fetch authors and categories for dropdowns
+async function fetchDropdowns() {
+  try {
+    const [resAuthors, resCategories] = await Promise.all([
+      fetch("http://localhost:3000/api/authors", {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }),
+      fetch("http://localhost:3000/api/categories", {
+        headers: { Authorization: `Bearer ${token.value}` },
+      }),
+    ]);
+
+    if (!resAuthors.ok || !resCategories.ok) throw new Error("Failed to fetch dropdown data");
+
+    authors.value = await resAuthors.json();
+    categories.value = await resCategories.json();
+  } catch (error) {
+    console.error("Dropdown fetch error:", error);
+  }
+}
 
 // Fetch books with optional search query
 async function fetchBooks(page = 1, limit = 10, query = "") {
@@ -372,5 +407,6 @@ async function handleDelete(book) {
 
 onMounted(() => {
   fetchBooks();
+  fetchDropdowns();
 });
 </script>
