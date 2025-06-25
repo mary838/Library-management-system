@@ -25,26 +25,31 @@ const categoriesUrl = "http://localhost:3000/api/categories";
 // Fetch authors and categories on mount
 onMounted(async () => {
   try {
-    const resAuthors = await fetch(authorsUrl, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!resAuthors.ok) throw new Error("Failed to fetch authors");
-    authors.value = await resAuthors.json();
+    const [resAuthors, resCategories] = await Promise.all([
+      fetch(authorsUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      fetch(categoriesUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+    ]);
 
-    const resCategories = await fetch(categoriesUrl, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    if (!resCategories.ok) throw new Error("Failed to fetch categories");
+    if (!resAuthors.ok || !resCategories.ok) {
+      throw new Error("Failed to fetch authors or categories");
+    }
+
+    authors.value = await resAuthors.json();
     categories.value = await resCategories.json();
   } catch (error) {
     alert("Error loading dropdown data: " + error.message);
+    console.error(error);
   }
 });
 
 async function handleSubmit() {
   if (
-    !title.value ||
-    !description.value ||
+    !title.value.trim() ||
+    !description.value.trim() ||
     !selectedAuthor.value ||
     !selectedCategory.value ||
     !quantity.value ||
@@ -94,6 +99,7 @@ async function handleSubmit() {
     router.push("/books");
   } catch (error) {
     alert("Error: " + error.message);
+    console.error(error);
   }
 }
 
@@ -105,15 +111,14 @@ function goBack() {
 <template>
   <div class="w-full p-4 mb-6 bg-white h-full">
     <div class="flex p-7 mb-4 h-full">
+      <!-- Form -->
       <div class="ms-6 w-1/2 px-32 py-16 rounded-xl shadow-lg">
         <h1 class="text-2xl font-bold mb-4 p-4 text-center text-blue-600">
           Add New Book
         </h1>
         <form class="max-w-sm mx-auto space-y-4" @submit.prevent="handleSubmit">
           <div>
-            <label for="title" class="block text-sm font-bold mb-2"
-              >Title</label
-            >
+            <label for="title" class="block text-sm font-bold mb-2">Title</label>
             <input
               type="text"
               id="title"
@@ -124,9 +129,7 @@ function goBack() {
           </div>
 
           <div>
-            <label for="description" class="block text-sm font-bold mb-2"
-              >Description</label
-            >
+            <label for="description" class="block text-sm font-bold mb-2">Description</label>
             <input
               type="text"
               id="description"
@@ -137,9 +140,7 @@ function goBack() {
           </div>
 
           <div>
-            <label for="author" class="block text-sm font-bold mb-2"
-              >Author</label
-            >
+            <label for="author" class="block text-sm font-bold mb-2">Author</label>
             <select
               id="author"
               v-model="selectedAuthor"
@@ -154,9 +155,7 @@ function goBack() {
           </div>
 
           <div>
-            <label for="category" class="block text-sm font-bold mb-2"
-              >Category</label
-            >
+            <label for="category" class="block text-sm font-bold mb-2">Category</label>
             <select
               id="category"
               v-model="selectedCategory"
@@ -171,9 +170,7 @@ function goBack() {
           </div>
 
           <div>
-            <label for="quantity" class="block text-sm font-bold mb-2"
-              >Quantity</label
-            >
+            <label for="quantity" class="block text-sm font-bold mb-2">Quantity</label>
             <input
               type="number"
               id="quantity"
@@ -183,12 +180,15 @@ function goBack() {
             />
           </div>
 
+        
+
           <button
             type="submit"
             class="text-white bg-blue-700 hover:bg-blue-800 rounded-lg text-sm w-full px-3 py-2 mt-4"
           >
             Add Book
           </button>
+
           <button
             type="button"
             @click="goBack"
@@ -199,6 +199,7 @@ function goBack() {
         </form>
       </div>
 
+      <!-- Image -->
       <div class="mt-6 ms-6 w-1/2 px-32 py-16">
         <img class="w-full h-full" src="../assets/image.png" alt="Book Image" />
       </div>
