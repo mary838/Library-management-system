@@ -71,8 +71,6 @@
             <th scope="col" class="px-6 py-3 text-blue-500">ID Card</th>
             <th scope="col" class="px-6 py-3 text-blue-500">Student Name</th>
             <th scope="col" class="px-6 py-3 text-blue-500">Class</th>
-            <th scope="col" class="px-6 py-3 text-blue-500">Created At</th>
-            <th scope="col" class="px-6 py-3 text-blue-500">Email</th>
             <th scope="col" class="px-6 py-3 text-blue-500">Actions</th>
           </tr>
         </thead>
@@ -85,20 +83,15 @@
           >
             <td class="w-4 p-4"></td>
             <td class="px-6 py-4">{{ student.id_card || student.id }}</td>
-            <th
-              scope="row"
-              class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-            >
+            <th class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
               {{ student.full_name }}
             </th>
-            <td class="px-6 py-4">{{ student.class || "WMAD" }}</td>
             <td class="px-6 py-4">
-              {{ student.created_at?.slice(0, 10) || "N/A" }}
+              {{ classNames[student.student_class] || "Unknown" }}
             </td>
-            <td class="px-6 py-4">{{ student.email || "N/A" }}</td>
             <td class="px-6 py-4 space-x-2">
               <button
-                @click="goToUpdate(student.id)"
+                @click="startUpdate(student)"
                 class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
               >
                 Update
@@ -114,17 +107,85 @@
         </tbody>
       </table>
     </div>
+
+    <!-- Update Form Modal -->
+    <div
+      v-if="editingStudent"
+      class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50"
+    >
+      <div class="bg-white p-6 rounded shadow-lg w-full max-w-md">
+        <h2 class="text-xl font-bold mb-4">Update Student</h2>
+        <form @submit.prevent="submitUpdate">
+          <div class="mb-3">
+            <label class="block mb-1 font-medium">Full Name</label>
+            <input
+              v-model="form.full_name"
+              type="text"
+              class="w-full border rounded px-3 py-2"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block mb-1 font-medium">ID Card</label>
+            <input
+              v-model="form.id_card"
+              type="text"
+              class="w-full border rounded px-3 py-2"
+              required
+            />
+          </div>
+          <div class="mb-3">
+            <label class="block mb-1 font-medium">Class</label>
+            <select
+              v-model="form.student_class"
+              class="w-full border rounded px-3 py-2"
+              required
+            >
+              <option value="">Select class</option>
+              <option value="wmad">WMAD</option>
+              <option value="sales">Sales</option>
+              <option value="accounting">Accounting</option>
+            </select>
+          </div>
+
+          <div class="flex justify-end space-x-2">
+            <button
+              type="button"
+              @click="editingStudent = null"
+              class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+              Save
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import { useRouter } from "vue-router";
-
-const router = useRouter();
 
 const students = ref([]);
 const searchName = ref("");
+const editingStudent = ref(null);
+const form = ref({
+  full_name: "",
+  id_card: "",
+  student_class: "",
+});
+
+const classNames = {
+  wmad: "WMAD",
+  sales: "Sales",
+  accounting: "Accounting",
+};
 
 const fetchAllStudents = async () => {
   try {
@@ -139,7 +200,11 @@ const fetchAllStudents = async () => {
       }
     );
     const data = await res.json();
-    students.value = data?.students || [];
+
+    students.value = (data?.students || []).map((s) => ({
+      ...s,
+      student_class: s.class?.toLowerCase(), // normalize
+    }));
   } catch (err) {
     console.error("Failed to fetch students", err);
   }
@@ -177,8 +242,44 @@ const deleteStudent = async (id) => {
   }
 };
 
-const goToUpdate = (id) => {
-  router.push(`/edit-student/${id}`);
+const startUpdate = (student) => {
+  editingStudent.value = student;
+  form.value = {
+    full_name: student.full_name,
+    id_card: student.id_card,
+    student_class: student.student_class || "",
+  };
+};
+
+const submitUpdate = async () => {
+  if (!editingStudent.value) return;
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `http://localhost:3000/api/students/${editingStudent.value.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(form.value),
+      }
+    );
+
+    if (!res.ok) {
+      const errorText = await res.text();
+      console.error("Update failed:", res.status, errorText);
+      throw new Error("Update failed");
+    }
+
+    await fetchAllStudents();
+    editingStudent.value = null;
+  } catch (err) {
+    alert("Failed to update student.");
+    console.error(err);
+  }
 };
 
 onMounted(fetchAllStudents);
