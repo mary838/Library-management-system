@@ -47,13 +47,19 @@ onMounted(async () => {
 });
 
 async function handleSubmit() {
+  console.log("Submitting form with data:", {
+    title: title.value,
+    description: description.value,
+    selectedAuthor: selectedAuthor.value,
+    selectedCategory: selectedCategory.value,
+    quantity: quantity.value,
+  });
   if (
     !title.value.trim() ||
     !description.value.trim() ||
     !selectedAuthor.value ||
     !selectedCategory.value ||
-    !quantity.value ||
-    !createdBy.value
+    !quantity.value
   ) {
     alert("Please fill all fields");
     return;
@@ -118,7 +124,9 @@ function goBack() {
         </h1>
         <form class="max-w-sm mx-auto space-y-4" @submit.prevent="handleSubmit">
           <div>
-            <label for="title" class="block text-sm font-bold mb-2">Title</label>
+            <label for="title" class="block text-sm font-bold mb-2"
+              >Title</label
+            >
             <input
               type="text"
               id="title"
@@ -129,7 +137,9 @@ function goBack() {
           </div>
 
           <div>
-            <label for="description" class="block text-sm font-bold mb-2">Description</label>
+            <label for="description" class="block text-sm font-bold mb-2"
+              >Description</label
+            >
             <input
               type="text"
               id="description"
@@ -140,7 +150,9 @@ function goBack() {
           </div>
 
           <div>
-            <label for="author" class="block text-sm font-bold mb-2">Author</label>
+            <label for="author" class="block text-sm font-bold mb-2"
+              >Author</label
+            >
             <select
               id="author"
               v-model="selectedAuthor"
@@ -155,7 +167,9 @@ function goBack() {
           </div>
 
           <div>
-            <label for="category" class="block text-sm font-bold mb-2">Category</label>
+            <label for="category" class="block text-sm font-bold mb-2"
+              >Category</label
+            >
             <select
               id="category"
               v-model="selectedCategory"
@@ -170,7 +184,9 @@ function goBack() {
           </div>
 
           <div>
-            <label for="quantity" class="block text-sm font-bold mb-2">Quantity</label>
+            <label for="quantity" class="block text-sm font-bold mb-2"
+              >Quantity</label
+            >
             <input
               type="number"
               id="quantity"
@@ -179,8 +195,6 @@ function goBack() {
               required
             />
           </div>
-
-        
 
           <button
             type="submit"
