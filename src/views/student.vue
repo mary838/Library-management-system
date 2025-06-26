@@ -92,7 +92,7 @@
             <td class="px-6 py-4 space-x-2">
               <button
                 @click="startUpdate(student)"
-                class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition"
+                class="inline-flex items-center gap-1 text-sm font-medium text-yellow-800 bg-yellow-100 hover:bg-yellow-200 border border-yellow-300 px-3 py-1 rounded-md transition"
               >
                 Update
               </button>
